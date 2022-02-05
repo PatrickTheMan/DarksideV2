@@ -1,5 +1,3 @@
-package Animation;
-
 import java.awt.image.BufferedImage;
 
 public class Frame {

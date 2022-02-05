@@ -1,5 +1,3 @@
-package Animation;
-
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
