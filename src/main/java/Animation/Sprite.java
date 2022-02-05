@@ -27,7 +27,7 @@ public class Sprite {
     public static BufferedImage getSprite(int xGrid, int yGrid) {
 
         if (spriteSheet == null) {
-            spriteSheet = loadSprite("AnimationSpriteSheet");
+            spriteSheet = loadSprite("NoImage.htm");
         }
 
         return spriteSheet.getSubimage(xGrid * TILE_SIZE, yGrid * TILE_SIZE, TILE_SIZE, TILE_SIZE);
