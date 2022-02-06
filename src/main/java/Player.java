@@ -1,22 +1,24 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import java.util.Set;
 
 public class Player {
 
-    private BufferedImage[] walkingLeft;
-    private BufferedImage[] walkingRight;
-    private BufferedImage[] standing;
+    //region [Getters & Setters]
+    public boolean isPlayerMoving() {
+        return playerMoving;
+    }
 
-    private Animation walkLeftAnimation;
-    private Animation walkRightAnimation;
-    private Animation standingAnimation;
+    public void setPlayerMoving(boolean playerMoving) {
+        this.playerMoving = playerMoving;
+    }
 
-    public Animation animation;
+    public Facing getFacing() {
+        return facing;
+    }
 
-    enum characterSelection{
-        Guy
+    public void setFacing(Facing facing) {
+        this.facing = facing;
     }
 
     public int getX() {
@@ -66,6 +68,16 @@ public class Player {
     public void setHeight(int height) {
         this.height = height;
     }
+    //endregion
+
+    //region [Variables]
+
+    enum Facing {
+        left,
+        right
+    }
+
+    Facing facing = Facing.left;
 
     private int x;
     private int y;
@@ -75,8 +87,24 @@ public class Player {
     private int height;
     Random r = new Random();
 
+    private int amountPicWidth;
+    private int amountPicHeight;
+    private int singlePicWidth;
+    private int singlePicHeight;
 
-    public Player(int HP, int speed, int width, int height, characterSelection cs){
+    private double spriteTimer=0;
+    private double spriteMaxTimer;
+    private int spriteNum=0;
+    private boolean playerMoving=false;
+    //endregion
+
+    //region [Objects]
+    Sprite playerSpriteLeft;
+    Sprite playerSpriteRight;
+    //endregion
+
+    //region [Constructor]
+    public Player(String playerType,int singlePicWidth, int singlePicHeight,int amountPicWidth,int amountPicHeight,double delay,int HP, int speed, int width, int height){
 
         this.x= GameEngine.settings.getScreenWidth()/2-width/2;
         this.y= GameEngine.settings.getScreenHeight()/2-height/2;
@@ -88,10 +116,19 @@ public class Player {
         this.width = width;
         this.height = height;
 
-        // Load Character HERE
+        this.amountPicHeight = amountPicHeight;
+        this.amountPicWidth = amountPicWidth;
+        this.singlePicHeight = singlePicHeight;
+        this.singlePicWidth = singlePicWidth;
 
+        this.spriteMaxTimer=delay;
+
+        this.playerSpriteLeft = new Sprite(playerType+"_Left",singlePicWidth,singlePicHeight,amountPicWidth,amountPicHeight);
+        this.playerSpriteRight = new Sprite(playerType+"_Right",singlePicWidth,singlePicHeight,amountPicWidth,amountPicHeight);
     }
+    //endregion
 
+    //region [Graphics]
     public Graphics2D getPlayerBox(Graphics g){
 
         Graphics2D g2 = (Graphics2D)g;
@@ -103,44 +140,35 @@ public class Player {
         return g2;
     }
 
+    public Graphics2D getPlayerSprite(Graphics g){
 
+        Graphics2D g2 = (Graphics2D)g;
 
+        if (playerMoving){
 
+            spriteTimer++;
 
+            if (spriteTimer == spriteMaxTimer*10){
 
+                spriteNum++;
+                spriteTimer=0;
 
+                if (spriteNum==amountPicHeight*amountPicWidth){
+                    spriteNum=0;
+                }
+            }
 
+            playerMoving=false;
+        }
 
+        if (facing.equals(Facing.left)){
+            g2.drawImage(playerSpriteLeft.collectionSprites[spriteNum], x,y,width,height,null);
+        } else {
+            g2.drawImage(playerSpriteRight.collectionSprites[spriteNum], x,y,width,height,null);
+        }
 
-
-
-
-
-    public void loadAnimations(){
-
-        // Load the sprite
-        Sprite.loadSprite("");
-
-        // Images for each animation
-        //BufferedImage[] walkingLeft = {Sprite.getSprite(0, 1), Sprite.getSprite(2, 1)}; // Gets the upper left images of my sprite sheet
-        //BufferedImage[] walkingRight = {Sprite.getSprite(0, 2), Sprite.getSprite(2, 2)};
-        //BufferedImage[] standing = {Sprite.getSprite(1, 0)};
-
-        BufferedImage[] standing = {Sprite.getSprite(0, 2)};
-
-        // These are animation states
-        //Animation walkLeftAnimation = new Animation(walkingLeft, 10);
-        //Animation walkRightAnimation = new Animation(walkingRight, 10);
-        //Animation standingAnimation = new Animation(standing, 10);
-
-        Animation standingAnimation = new Animation(standing, 10);
-
-        // This is the actual animation
-        Animation animation = standingAnimation;
+        return g2;
     }
-
-
-
-
+    //endregion
 
 }

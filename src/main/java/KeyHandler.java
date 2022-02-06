@@ -3,14 +3,18 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
+    //region [Variables]
     boolean upPressed,downPressed,leftPressed,rightPressed;
+    //endregion
 
-
+    //region [keyTyped]
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
+    //endregion
 
+    //region [keyPressed]
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -23,7 +27,9 @@ public class KeyHandler implements KeyListener {
         if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) rightPressed=true;
 
     }
+    //endregion
 
+    //region [keyReleased]
     @Override
     public void keyReleased(KeyEvent e) {
 
@@ -36,4 +42,6 @@ public class KeyHandler implements KeyListener {
         if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) rightPressed=false;
 
     }
+    //endregion
+
 }

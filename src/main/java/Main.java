@@ -2,6 +2,7 @@ import javax.swing.*;
 
 public class Main {
 
+    //region [Main]
     public static void main (String[] args){
 
         JFrame frame = new JFrame();
@@ -25,6 +26,6 @@ public class Main {
 
         ge.startGameThread();
     }
-
+    //endregion
 
 }

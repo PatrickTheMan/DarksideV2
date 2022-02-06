@@ -2,12 +2,23 @@ import java.awt.*;
 
 public class Settings {
 
-    // Game Settings
+    //region [Variables]
     private static int originalTileSize = 32;
     private static int scale = 2;
 
     private static int tileSize = originalTileSize * scale;
 
+    private static int maxScreenCol = 28;
+    private static int maxScreenRow = 16;
+    private static int screenWidth = tileSize * maxScreenCol;
+    private static int screenHeight = tileSize * maxScreenRow;
+
+    private static Color backgroundColor = Color.gray;
+
+    private static int fps = 60;
+    //endregion
+
+    //region [Getters & Setters]
     public int getTileSize() {
         return tileSize;
     }
@@ -48,11 +59,6 @@ public class Settings {
         this.screenHeight = screenHeight;
     }
 
-    private static int maxScreenCol = 28;
-    private static int maxScreenRow = 16;
-    private static int screenWidth = tileSize * maxScreenCol;
-    private static int screenHeight = tileSize * maxScreenRow;
-
     public Color getBackgroundColor() {
         return backgroundColor;
     }
@@ -61,10 +67,6 @@ public class Settings {
         this.backgroundColor = backgroundColor;
     }
 
-    private static Color backgroundColor = Color.gray;
-
-    private static int fps = 60;
-
     public int getFps() {
         return fps;
     }
@@ -72,7 +74,6 @@ public class Settings {
     public void setFps(int fps) {
         Settings.fps = fps;
     }
-
-
+    //endregion
 
 }

@@ -3,21 +3,19 @@ import java.awt.*;
 
 public class GameEngine extends JPanel implements Runnable {
 
+    //region [Objects]
     public static Settings settings = new Settings();
 
     Thread gameThread;
 
     KeyHandler keyHandler = new KeyHandler();
 
+    Player player = new Player("space marine",96,96,6,1,1,100,5, settings.getTileSize(), settings.getTileSize());
 
+    WaveManager waveManager = new WaveManager(50);
+    //endregion
 
-    Player player = new Player(100,5, settings.getTileSize(), settings.getTileSize(), Player.characterSelection.Guy);
-
-    WaveManager waveManager = new WaveManager(10);
-
-
-
-
+    //region [Constructor]
     public GameEngine(){
 
         this.setPreferredSize(new Dimension(settings.getScreenWidth(), settings.getScreenHeight()));
@@ -26,12 +24,16 @@ public class GameEngine extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
     }
+    //endregion
 
+    //region [Thread]
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
     }
+    //endregion
 
+    //region [Run method]
     @Override
     public void run() {
 
@@ -54,7 +56,7 @@ public class GameEngine extends JPanel implements Runnable {
             if (delta >= 1){
 
                 // Updates all as fast as the fps allows
-                Update.all(keyHandler,player,waveManager.getWave());
+                Update.all(timer,keyHandler,player,waveManager.getWave());
 
                 // Draw
                 repaint();
@@ -66,7 +68,7 @@ public class GameEngine extends JPanel implements Runnable {
             if (timer >= 1000000000){
 
                 // Updates 1 time pr sec
-                Update.prSec(timer,drawCount);
+                Update.prSec(timer,drawCount,player);
 
                 drawCount = 0;
                 timer = 0;
@@ -75,17 +77,24 @@ public class GameEngine extends JPanel implements Runnable {
         }
 
     }
+    //endregion
 
+    //region [Paint]
     public void paintComponent(Graphics g){
 
         super.paintComponent(g);
 
-        player.getPlayerBox(g);
+        // Draw the player
+        //player.getPlayerBox(g);
+        player.getPlayerSprite(g);
 
+        // Draw the wave enemys
         for (Enemy e : waveManager.getWave()){
-            e.getEnemyBox(g);
+            //e.getEnemyBox(g);
+            e.getEnemySprite(g);
         }
 
     }
+    //endregion
 
 }

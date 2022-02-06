@@ -2,39 +2,63 @@ import java.util.ArrayList;
 
 public class Update {
 
-    public static void all(KeyHandler kH, Player p,ArrayList<Enemy> e){
-        player(kH,p);
+    //region [All]
+    public static void all(long timer,KeyHandler kH, Player p,ArrayList<Enemy> e){
+        player(timer,kH,p);
         enemyWave(e);
     }
+    //endregion
 
-    public static void prSec(long timer, int drawCount){
+    //region [prSec]
+    public static void prSec(long timer, int drawCount, Player player){
 
         System.out.println("FPS: "+drawCount);
 
-    }
+        System.out.println("x: "+player.getX()+" / y: "+player.getY());
 
-    public static void player(KeyHandler keyHandler, Player player){
+        System.out.println("Player -> "+player.facing);
+
+    }
+    //endregion
+
+    //region [Player]
+    public static void player(long timer,KeyHandler keyHandler, Player player){
 
         if (keyHandler.upPressed){
             player.setY(player.getY()-player.getSpeed());
-            System.out.println("x: "+player.getX()+" / y: "+player.getY());
+            player.setPlayerMoving(true);
         }
+
         if (keyHandler.downPressed){
             player.setY(player.getY()+player.getSpeed());
-            System.out.println("x: "+player.getX()+" / y: "+player.getY());
-        }
-        if (keyHandler.leftPressed){
-            player.setX(player.getX()-player.getSpeed());
-            System.out.println("x: "+player.getX()+" / y: "+player.getY());
-        }
-        if (keyHandler.rightPressed){
-            player.setX(player.getX()+player.getSpeed());
-            System.out.println("x: "+player.getX()+" / y: "+player.getY());
+            player.setPlayerMoving(true);
         }
 
+        if (keyHandler.leftPressed){
+
+            if (player.facing == Player.Facing.right){
+                player.facing= Player.Facing.left;
+            }
+
+            player.setX(player.getX()-player.getSpeed());
+            player.setPlayerMoving(true);
+        }
+
+        if (keyHandler.rightPressed){
+            player.facing= Player.Facing.right;
+
+            if (player.facing == Player.Facing.left){
+                player.facing= Player.Facing.right;
+            }
+
+            player.setX(player.getX()+player.getSpeed());
+            player.setPlayerMoving(true);
+        }
 
     }
+    //endregion
 
+    //region [enemyWave]
     public static void enemyWave(ArrayList<Enemy> wave){
 
         for (Enemy e : wave){
@@ -45,5 +69,6 @@ public class Update {
         //System.out.println("alive: "+wave.size());
 
     }
+    //endregion
 
 }
