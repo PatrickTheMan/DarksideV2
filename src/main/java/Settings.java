@@ -8,8 +8,8 @@ public class Settings {
 
     private static int tileSize = originalTileSize * scale;
 
-    private static int maxScreenCol = 28;
-    private static int maxScreenRow = 16;
+    private static int maxScreenCol = 20;
+    private static int maxScreenRow = 10;
     private static int screenWidth = tileSize * maxScreenCol;
     private static int screenHeight = tileSize * maxScreenRow;
 

@@ -12,7 +12,7 @@ public class Sprite {
 
         try {
 
-            this.sprite = ImageIO.read(new File("C:\\Users\\patri\\IdeaProjects\\DarksideV2\\src\\main\\resources\\"+sprite+".png"));
+            this.sprite = ImageIO.read(new File(System.getProperty("user.dir")+"\\src\\main\\resources\\"+sprite+".png"));
 
         } catch (IOException e) {
             System.out.println("Error");

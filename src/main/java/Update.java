@@ -5,7 +5,7 @@ public class Update {
     //region [All]
     public static void all(long timer,KeyHandler kH, Player p,ArrayList<Enemy> e){
         player(timer,kH,p);
-        enemyWave(e);
+        enemyWave(e,kH,p);
     }
     //endregion
 
@@ -25,12 +25,12 @@ public class Update {
     public static void player(long timer,KeyHandler keyHandler, Player player){
 
         if (keyHandler.upPressed){
-            player.setY(player.getY()-player.getSpeed());
+            player.setY(player.getY()+player.getSpeed());
             player.setPlayerMoving(true);
         }
 
         if (keyHandler.downPressed){
-            player.setY(player.getY()+player.getSpeed());
+            player.setY(player.getY()-player.getSpeed());
             player.setPlayerMoving(true);
         }
 
@@ -40,18 +40,17 @@ public class Update {
                 player.facing= Player.Facing.left;
             }
 
-            player.setX(player.getX()-player.getSpeed());
+            player.setX(player.getX()+player.getSpeed());
             player.setPlayerMoving(true);
         }
 
         if (keyHandler.rightPressed){
-            player.facing= Player.Facing.right;
 
             if (player.facing == Player.Facing.left){
                 player.facing= Player.Facing.right;
             }
 
-            player.setX(player.getX()+player.getSpeed());
+            player.setX(player.getX()-player.getSpeed());
             player.setPlayerMoving(true);
         }
 
@@ -59,9 +58,28 @@ public class Update {
     //endregion
 
     //region [enemyWave]
-    public static void enemyWave(ArrayList<Enemy> wave){
+    public static void enemyWave(ArrayList<Enemy> wave, KeyHandler keyHandler,Player player){
 
         for (Enemy e : wave){
+
+            e.enemyAIUpdate(player);
+
+            if (keyHandler.upPressed){
+                e.setY(e.getY()+player.getSpeed());
+            }
+
+            if (keyHandler.downPressed){
+                e.setY(e.getY()-player.getSpeed());
+            }
+
+            if (keyHandler.leftPressed){
+                e.setX(e.getX()+player.getSpeed());
+            }
+
+            if (keyHandler.rightPressed){
+                e.setX(e.getX()-player.getSpeed());
+            }
+
             if (e.isDead()){
                 wave.remove(e);
             }

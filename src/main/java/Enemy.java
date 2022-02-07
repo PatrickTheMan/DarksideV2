@@ -3,25 +3,42 @@ import java.util.Random;
 
 public class Enemy {
 
+    //region [Getters & Setters]
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    //endregion
+
     //region [Variables]
-    int x, y, HP, speed, width,height;
-    Random r = new Random();
+    private int x, y, HP, speed, width,height;
 
-    double spriteTimer=0;
-    double spriteMaxTimer;
-    int spriteNum=0;
+    private double spriteTimer=0;
+    private double spriteMaxTimer;
+    private int spriteNum=0;
 
-    int amountPicWidth;
-    int amountPicHeight;
-    int singlePicWidth;
-    int singlePicHeight;
+    private int amountPicWidth;
+    private int amountPicHeight;
+    private int singlePicWidth;
+    private int singlePicHeight;
 
-    enum Facing {
+    private enum Facing {
         left,
         right
     }
 
-    Enemy.Facing facing = Enemy.Facing.left;
+    private Facing facing = Facing.left;
     //endregion
 
     //region [Objects]
@@ -30,11 +47,10 @@ public class Enemy {
     //endregion
 
     //region [Constructor]
-    public Enemy (String enemyType,int singlePicWidth, int singlePicHeight, int amountPicWidth, int amountPicHeight,double delay,int HP, int speed, int width, int height){
+    public Enemy (String enemyType,int singlePicWidth, int singlePicHeight, int amountPicWidth, int amountPicHeight,double delay,int HP, int speed,int x, int y ,int width, int height){
 
-        // Can spawn random in the area around the screen
-        this.x = r.nextInt(0,GameEngine.settings.getScreenWidth()-64);
-        this.y = r.nextInt(0,GameEngine.settings.getScreenHeight()-64);
+        this.x = x-width/2;
+        this.y = y-height/2;
 
         System.out.println("enemy x: "+this.x+" / enemy y: "+this.y);
 
@@ -51,7 +67,7 @@ public class Enemy {
         this.spriteMaxTimer = delay;
 
         this.enemySpriteLeft = new Sprite(enemyType+"_Left",singlePicWidth,singlePicHeight,amountPicWidth,amountPicHeight);
-        this.enemySpriteRight = new Sprite(enemyType+"_Left",singlePicWidth,singlePicHeight,amountPicWidth,amountPicHeight);
+        this.enemySpriteRight = new Sprite(enemyType+"_Right",singlePicWidth,singlePicHeight,amountPicWidth,amountPicHeight);
     }
     //endregion
 
@@ -67,7 +83,7 @@ public class Enemy {
         return g2;
     }
 
-    public Graphics2D getEnemySprite(Graphics g){
+    public Graphics2D getEnemySprite(Graphics g, Player player){
 
         Graphics2D g2 = (Graphics2D)g;
 
@@ -89,6 +105,30 @@ public class Enemy {
         }
 
         return g2;
+    }
+    //endregion
+
+    //region [AI]
+    public void enemyAIUpdate(Player player){
+
+        double playerLocationX = GameEngine.settings.getScreenWidth()/2-player.getWidth()/2;
+        double playerLocationY = GameEngine.settings.getScreenHeight()/2-player.getWidth()/2;
+
+        if (this.x < playerLocationX){
+            this.facing = Facing.right;
+            this.x +=this.speed;
+        } else if (this.x > playerLocationX){
+            this.facing = Facing.left;
+            this.x -=this.speed;
+        }
+
+        if (this.y < playerLocationY){
+            this.y +=this.speed;
+        } else if (this.y > playerLocationY){
+            this.y -=this.speed;
+        }
+
+
     }
     //endregion
 

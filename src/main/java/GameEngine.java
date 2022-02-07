@@ -12,7 +12,7 @@ public class GameEngine extends JPanel implements Runnable {
 
     Player player = new Player("space marine",96,96,6,1,1,100,5, settings.getTileSize(), settings.getTileSize());
 
-    WaveManager waveManager = new WaveManager(50);
+    WaveManager waveManager = new WaveManager(50,player,true,true,true,true);
     //endregion
 
     //region [Constructor]
@@ -91,7 +91,7 @@ public class GameEngine extends JPanel implements Runnable {
         // Draw the wave enemys
         for (Enemy e : waveManager.getWave()){
             //e.getEnemyBox(g);
-            e.getEnemySprite(g);
+            e.getEnemySprite(g,player);
         }
 
     }

@@ -135,7 +135,7 @@ public class Player {
 
         g2.setColor(Color.WHITE);
 
-        g2.fillRect(this.x,this.y,width,height);
+        g2.fillRect(GameEngine.settings.getScreenWidth()/2,GameEngine.settings.getScreenHeight()/2-height/2,width,height);
 
         return g2;
     }
@@ -162,9 +162,9 @@ public class Player {
         }
 
         if (facing.equals(Facing.left)){
-            g2.drawImage(playerSpriteLeft.collectionSprites[spriteNum], x,y,width,height,null);
+            g2.drawImage(playerSpriteLeft.collectionSprites[spriteNum], GameEngine.settings.getScreenWidth()/2-width/2,GameEngine.settings.getScreenHeight()/2-height/2,width,height,null);
         } else {
-            g2.drawImage(playerSpriteRight.collectionSprites[spriteNum], x,y,width,height,null);
+            g2.drawImage(playerSpriteRight.collectionSprites[spriteNum], GameEngine.settings.getScreenWidth()/2-width/2,GameEngine.settings.getScreenHeight()/2-height/2,width,height,null);
         }
 
         return g2;
